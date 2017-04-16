@@ -15,7 +15,7 @@ import java.io.StringReader;
 
 public class Test {
     public static void main(String[] args) throws Exception {
-        String sql = "SELECT concat('1', '2') " +
+        String sql = "SELECT concat(o.order_id, '2') " +
             "FROM fact_order o " +
             "LEFT JOIN dim_business d " +
             "WHERE o.shop_id = d.shop_id " +
