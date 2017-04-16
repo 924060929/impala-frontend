@@ -71,7 +71,7 @@ public class Test {
     <artifactId>impala-frontend</artifactId>
     <version>cdh5.10.0-release</version>
     <scope>system</scope>
-    <!-- 这里改成你的jar包目录 -->
+    <!-- 这里改成你的jar包存放的位置 -->
     <systemPath>${project.basedir}/src/main/lib/impala-frontend-0.1-SNAPSHOT.jar</systemPath>
 </dependency>
 ```
