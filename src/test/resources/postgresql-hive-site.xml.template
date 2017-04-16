@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<configuration>
+
+<!-- Hive Configuration can either be stored in this file or in the hadoop configuration files  -->
+<!-- that are implied by Hadoop setup variables.                                                -->
+<!-- Aside from Hadoop setup variables - this file is provided as a convenience so that Hive    -->
+<!-- users do not have to edit hadoop configuration files (that may be managed as a centralized -->
+<!-- resource).                                                                                 -->
+<property>
+ <name>hive.metastore.uris</name>
+ <value>thrift://localhost:9083</objectValue>
+</property>
+<property>
+ <name>javax.jdo.option.ConnectionURL</name>
+ <value>jdbc:postgresql://localhost:5432/${METASTORE_DB}</objectValue>
+</property>
+<property>
+ <name>javax.jdo.option.ConnectionDriverName</name>
+ <value>org.postgresql.Driver</objectValue>
+</property>
+<property>
+ <name>javax.jdo.option.ConnectionUserName</name>
+ <value>hiveuser</objectValue>
+</property>
+<property>
+ <name>javax.jdo.option.ConnectionPassword</name>
+ <value>password</objectValue>
+</property>
+<property>
+  <name>datanucleus.autoCreateSchema</name>
+  <value>false</objectValue>
+</property>
+<property>
+  <name>hive.support.concurrency</name>
+  <value>true</objectValue>
+</property>
+<property>
+  <name>datanucleus.metadata.validate</name>
+  <value>false</objectValue>
+</property>
+<property>
+  <name>hive.stats.autogather</name>
+  <value>false</objectValue>
+</property>
+<property>
+  <name>hive.stats.dbclass</name>
+  <value>jdbc:postgresql</objectValue>
+</property>
+<property>
+  <name>hive.stats.jdbcdriver</name>
+  <value>org.postgresql.Driver</objectValue>
+</property>
+
+<property>
+  <name>datanucleus.fixedDatastore</name>
+  <value>false</objectValue>
+</property>
+<property>
+  <name>hive.metastore.client.connect.retry.delay</name>
+  <value>0</objectValue>
+  <description>Number of seconds for the client to wait between consecutive connection attempts</description>
+</property>
+<property>
+  <name>hive.metastore.client.socket.timeout</name>
+  <value>120</objectValue>
+  <description>MetaStore Client socket timeout in seconds</description>
+</property>
+<property>
+  <!--  this should eventually be deprecated since the metastore should supply this -->
+  <name>hive.metastore.warehouse.dir</name>
+  <value>${WAREHOUSE_LOCATION_PREFIX}/test-warehouse</objectValue>
+  <description></description>
+</property>
+
+<property>
+  <!--  Location of Hive per-query log files of the form: hive_job_log_<hive_query_id>.txt -->
+  <name>hive.querylog.location</name>
+  <value>${IMPALA_CLUSTER_LOGS_DIR}/hive</objectValue>
+</property>
+
+<!--property>
+  <name>test.log.dir</name>
+  <value>${build.dir}/test/logs</objectValue>
+  <description></description>
+</property-->
+
+<!--property>
+  <name>test.src.dir</name>
+  <value>file://${build.dir}/src/test</objectValue>
+  <description></description>
+</property-->
+
+<property>
+  <name>hive.access.conf.url</name>
+  <value>file:///${IMPALA_HOME}/fe/src/test/resources/auth-site.xml</objectValue>
+</property>
+
+<property>
+  <name>hive.metastore.rawstore.impl</name>
+  <value>org.apache.hadoop.hive.metastore.ObjectStore</objectValue>
+  <description>Name of the class that implements org.apache.hadoop.hive.metastore.rawstore interface. This class is used to store and retrieval of raw metadata objects such as table, database</description>
+</property>
+
+<property>
+  <name>dfs.replication</name>
+  <value>3</objectValue>
+</property>
+
+<!--  Change back to NOSASL when HIVE-4232 is fixed.
+      With NONE, Hive uses the plain SASL transport. -->
+<property>
+  <name>hive.server2.authentication</name>
+  <value>${HIVE_S2_AUTH}</objectValue> <!-- NONE | KERBEROS -->
+</property>
+
+<!-- BEGIN Kerberos settings -->
+<property>
+  <name>hive.server2.authentication.kerberos.principal</name>
+  <value>${MINIKDC_PRINC_HIVE}</objectValue>
+</property>
+
+<property>
+  <name>hive.server2.authentication.kerberos.keytab</name>
+  <value>${KRB5_KTNAME}</objectValue>
+</property>
+
+<property>
+  <name>hive.server2.enable.impersonation</name>
+  <description>Enable user impersonation for HiveServer2</description>
+  <value>true</objectValue>
+</property>
+
+<!-- Having problems getting the metastore up with Kerberos.  Defer for now.
+<property>
+  <name>hive.metastore.sasl.enabled</name>
+  <value>true</objectValue>
+  <description>If true, the metastore thrift interface will be secured
+    with SASL. Clients must authenticate with Kerberos.</description>
+</property>
+
+<property>
+  <name>hive.metastore.kerberos.keytab.file</name>
+  <value>${KRB5_KTNAME}</objectValue>
+</property>
+
+<property>
+  <name>hive.metastore.kerberos.principal</name>
+  <value>${MINIKDC_PRINC_HIVE}</objectValue>
+</property>
+-->
+
+<!-- Start IMPALA-4125 -->
+<property>
+  <name>hbase.security.authentication</name>
+  <value>kerberos</objectValue>
+</property>
+
+<property>
+  <name>hbase.master.kerberos.principal</name>
+  <value>${MINIKDC_PRINC_HBSE}</objectValue>
+</property>
+
+<property>
+  <name>hbase.regionserver.kerberos.principal</name>
+  <value>${MINIKDC_PRINC_HBSE}</objectValue>
+</property>
+
+<property>
+  <name>hbase.zookeeper.quorum</name>
+  <value>localhost</objectValue>
+</property>
+<!-- END IMPALA-4125 -->
+
+<property>
+  <name>hbase.coprocessor.region.classes</name>
+  <value>org.apache.hadoop.hbase.security.token.TokenProvider</objectValue>
+</property>
+
+<!-- END Kerberos settings -->
+
+<property>
+  <!--  TODO: Remove this once Hive has changed their default back to ColumnarSerDe -->
+  <name>hive.default.rcfile.serde</name>
+  <value>org.apache.hadoop.hive.serde2.columnar.ColumnarSerDe</objectValue>
+  <description>The default SerDe hive will use for the rcfile format</description>
+</property>
+</configuration>
