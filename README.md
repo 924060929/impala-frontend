@@ -7,6 +7,10 @@ impala版本：[cdh5.10.0-release](https://github.com/cloudera/Impala/tree/cdh5.
 把fe文件夹替换到`Impala-cdhx.x.x-release`目录中，运行`./buildall.sh -fe_only`，编译完成后复制`fe/target/impala-frontend-0.1-SNAPSHOT.jar`到工程中使用
 
 ## 使用方法:
+主要功能
+1. 通过`xx.startPosition`和`xx.endPosition`得语法块的开始位置和结束位置
+2. 通过`xx.subBlocks`去递归遍历子语法块
+
 ```
 import java_cup.runtime.ExtendSymbolFactory;
 import org.apache.impala.analysis.*;
@@ -26,10 +30,19 @@ public class Test {
         SelectStmt selectStmt = (SelectStmt) parser.parse().value;
         SelectList selectList = selectStmt.getSelectList();
         SelectListItem selectListItem = selectList.getItems().get(0);
+        // expr相当于concat(o.order_id, '2')
         Expr expr = selectListItem.getExpr();
 
         // 输出结果：start: 7, end: 30
         System.out.println("start: " + expr.startPosition + ", end: " + expr.endPosition);
+
+        // 0："concat"
+        // 1: "("
+        // 2: o.order_id, '2'
+        // 3: ")"
+        FunctionParams functionParams = (FunctionParams) expr.subBlocks.get(2);
+        // 输出结果：start: 14, end: 29
+        System.out.println("start: " + functionParams.startPosition + ", end: " + functionParams.endPosition);
     }
 }
 ```
