@@ -4,7 +4,7 @@
 impala版本：[cdh5.10.0-release](https://github.com/cloudera/Impala/tree/cdh5.10.0-release)
 
 ## 安装方法
-把fe文件夹替换到`Impala-cdhx.x.x-release`目录中，运行`./buildall.sh -fe_only`，编译完成后复制`fe/target/impala-frontend-0.1-SNAPSHOT-tests.jar`到工程中使用
+把fe文件夹替换到`Impala-cdhx.x.x-release`目录中，运行`./buildall.sh -fe_only`，编译完成后复制`fe/target/impala-frontend-0.1-SNAPSHOT.jar`到工程中使用
 
 ## 使用方法:
 ```
