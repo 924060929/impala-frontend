@@ -55,7 +55,7 @@ public class Test {
 
 <dependency>
     <groupId>org.apache.impala</groupId>
-    <artifactId>frontend</artifactId>
+    <artifactId>impala-frontend</artifactId>
     <version>cdh5.10.0-release</version>
     <scope>system</scope>
     <!-- 这里改成你的目录 -->
