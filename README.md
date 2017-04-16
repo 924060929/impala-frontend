@@ -22,12 +22,13 @@ public class Test {
             "  AND o.order_day_key>20170415";
             
         SqlScanner scanner = new SqlScanner(new StringReader(sql));
-
         SqlParser parser = new SqlParser(scanner, new ExtendSymbolFactory(sql));
         SelectStmt selectStmt = (SelectStmt) parser.parse().value;
         SelectList selectList = selectStmt.getSelectList();
         SelectListItem selectListItem = selectList.getItems().get(0);
         Expr expr = selectListItem.getExpr();
+        
+        // 输出结果：start: 7, end: 23
         System.out.println("start: " + expr.startPosition + ", end: " + expr.endPosition);
     }
 }
