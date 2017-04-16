@@ -54,7 +54,7 @@ public class Test {
 </dependency>
 
 <dependency>
-    <groupId>com.cloudera.impala</groupId>
+    <groupId>org.apache.impala</groupId>
     <artifactId>frontend</artifactId>
     <version>cdh5.10.0-release</version>
     <scope>system</scope>
