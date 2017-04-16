@@ -6,36 +6,6 @@ impala版本：[cdh5.10.0-release](https://github.com/cloudera/Impala/tree/cdh5.
 ## 安装方法
 把fe文件夹替换到`Impala-cdhx.x.x-release`目录中，运行`./buildall.sh -fe_only`，编译完成后复制`fe/target/impala-frontend-0.1-SNAPSHOT-tests.jar`到工程中使用
 
-#### maven依赖：
-```
-<dependency>
-    <groupId>org.apache.hive</groupId>
-    <artifactId>hive-exec</artifactId>
-    <version>0.14.0</version>
-</dependency>
-
-<dependency>
-    <groupId>org.apache.sentry</groupId>
-    <artifactId>sentry-core-model-db</artifactId>
-    <version>1.5.1-cdh5.10.0</version>
-    <exclusions>
-        <exclusion>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-common</artifactId>
-        </exclusion>
-    </exclusions>
-</dependency>
-
-<dependency>
-    <groupId>com.cloudera.impala</groupId>
-    <artifactId>frontend</artifactId>
-    <version>cdh5.10.0-release</version>
-    <scope>system</scope>
-    <!-- 这里改成你的目录 -->
-    <systemPath>${project.basedir}/src/main/lib/impala-frontend-0.1-SNAPSHOT.jar</systemPath>
-</dependency>
-```
-
 ## 使用方法:
 ```
 import java_cup.runtime.ExtendSymbolFactory;
@@ -69,4 +39,33 @@ public class Test {
         System.out.println("start: " + expr.startPosition + ", end: " + expr.endPosition);
     }
 }
+```
+#### maven依赖：
+```
+<dependency>
+    <groupId>org.apache.hive</groupId>
+    <artifactId>hive-exec</artifactId>
+    <version>0.14.0</version>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.sentry</groupId>
+    <artifactId>sentry-core-model-db</artifactId>
+    <version>1.5.1-cdh5.10.0</version>
+    <exclusions>
+        <exclusion>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+
+<dependency>
+    <groupId>com.cloudera.impala</groupId>
+    <artifactId>frontend</artifactId>
+    <version>cdh5.10.0-release</version>
+    <scope>system</scope>
+    <!-- 这里改成你的目录 -->
+    <systemPath>${project.basedir}/src/main/lib/impala-frontend-0.1-SNAPSHOT.jar</systemPath>
+</dependency>
 ```
