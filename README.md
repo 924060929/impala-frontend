@@ -3,6 +3,8 @@
 
 impala版本：[cdh5.10.0-release](https://github.com/cloudera/Impala/tree/cdh5.10.0-release)
 
+## 安装方法
+把fe文件夹替换到`Impala-cdhx.x.x-release`目录中，运行`./buildall.sh -fe_only`
 
 ## 使用方法:
 ```
