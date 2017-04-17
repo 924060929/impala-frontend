@@ -3,13 +3,15 @@
 
 impala版本：[cdh5.10.0-release](https://github.com/cloudera/Impala/tree/cdh5.10.0-release)
 
+
+## 主要功能
+1. 通过`xx.startPosition`和`xx.endPosition`得语法块的开始位置和结束位置
+2. 通过`xx.subBlocks`去递归遍历子语法块
+
 ## 安装方法
 把fe文件夹替换到`Impala-cdhx.x.x-release`目录中，运行`./buildall.sh -fe_only`，编译完成后复制`fe/target/impala-frontend-0.1-SNAPSHOT.jar`到工程中使用
 
 ## 使用方法:
-主要功能
-1. 通过`xx.startPosition`和`xx.endPosition`得语法块的开始位置和结束位置
-2. 通过`xx.subBlocks`去递归遍历子语法块
 
 ```
 import java_cup.runtime.ExtendSymbolFactory;
