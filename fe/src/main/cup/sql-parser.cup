@@ -7016,8 +7016,14 @@ sign_chain_expr ::=
       RESULT.endPosition = _0_symbol.end;
       RESULT.subBlocks.add(0, ObjectSyntaxBlock.valueOf(_1_symbol));
     } else {
-      RESULT = new ArithmeticExpr(ArithmeticExpr.Operator.MULTIPLY,
-                                  new NumericLiteral(BigDecimal.valueOf(-1)), e);
+      NumericLiteral numeric = new NumericLiteral(BigDecimal.valueOf(-1));
+      numeric.startPosition = _1_symbol.start;
+      numeric.endPosition = _1_symbol.end;
+      numeric.subBlocks = Lists.newArrayList(
+        ObjectSyntaxBlock.valueOf(_1_symbol)
+      );
+
+      RESULT = new ArithmeticExpr(ArithmeticExpr.Operator.MULTIPLY, numeric, e);
       RESULT.startPosition = _1_symbol.start;
       RESULT.endPosition = _0_symbol.end;
       RESULT.subBlocks = Lists.newArrayList(
@@ -7139,8 +7145,12 @@ function_call_expr ::=
     ExtendSymbol _1_symbol = (ExtendSymbol) CUP$SqlParser$stack.elementAt(CUP$SqlParser$top - 1);
     ExtendSymbol _0_symbol = (ExtendSymbol) CUP$SqlParser$stack.peek();
 
-    RESULT = FunctionCallExpr.createExpr(
-        fn_name, new FunctionParams(new ArrayList<Expr>()));
+    FunctionParams functionParams = new FunctionParams(new ArrayList<Expr>());
+    functionParams.startPosition = _0_symbol.start;
+    functionParams.endPosition = _0_symbol.start;
+
+
+    RESULT = FunctionCallExpr.createExpr( fn_name, functionParams);
     RESULT.startPosition = _2_symbol.start;
     RESULT.endPosition = _0_symbol.end;
     RESULT.subBlocks = Lists.newArrayList(
@@ -7658,6 +7668,9 @@ literal ::=
     ExtendSymbol symbol = (ExtendSymbol) CUP$SqlParser$stack.peek();
     RESULT.startPosition = symbol.start;
     RESULT.endPosition = symbol.end;
+    RESULT.subBlocks = Lists.newArrayList(
+      ObjectSyntaxBlock.valueOf(symbol)
+    );
   :}
   | DECIMAL_LITERAL:l
   {:
@@ -7665,6 +7678,9 @@ literal ::=
     ExtendSymbol symbol = (ExtendSymbol) CUP$SqlParser$stack.peek();
     RESULT.startPosition = symbol.start;
     RESULT.endPosition = symbol.end;
+    RESULT.subBlocks = Lists.newArrayList(
+      ObjectSyntaxBlock.valueOf(symbol)
+    );
   :}
   | STRING_LITERAL:l
   {:
@@ -7672,6 +7688,9 @@ literal ::=
     ExtendSymbol symbol = (ExtendSymbol) CUP$SqlParser$stack.peek();
     RESULT.startPosition = symbol.start;
     RESULT.endPosition = symbol.end;
+    RESULT.subBlocks = Lists.newArrayList(
+      ObjectSyntaxBlock.valueOf(symbol)
+    );
   :}
   | KW_TRUE
   {:
@@ -7679,6 +7698,9 @@ literal ::=
     ExtendSymbol symbol = (ExtendSymbol) CUP$SqlParser$stack.peek();
     RESULT.startPosition = symbol.start;
     RESULT.endPosition = symbol.end;
+    RESULT.subBlocks = Lists.newArrayList(
+      ObjectSyntaxBlock.valueOf(symbol)
+    );
   :}
   | KW_FALSE
   {:
@@ -7686,6 +7708,9 @@ literal ::=
     ExtendSymbol symbol = (ExtendSymbol) CUP$SqlParser$stack.peek();
     RESULT.startPosition = symbol.start;
     RESULT.endPosition = symbol.end;
+    RESULT.subBlocks = Lists.newArrayList(
+      ObjectSyntaxBlock.valueOf(symbol)
+    );
   :}
   | KW_NULL
   {:
@@ -7693,6 +7718,9 @@ literal ::=
     ExtendSymbol symbol = (ExtendSymbol) CUP$SqlParser$stack.peek();
     RESULT.startPosition = symbol.start;
     RESULT.endPosition = symbol.end;
+    RESULT.subBlocks = Lists.newArrayList(
+      ObjectSyntaxBlock.valueOf(symbol)
+    );
   :}
   | UNMATCHED_STRING_LITERAL:l expr:e
   {:
@@ -7706,6 +7734,9 @@ literal ::=
     ExtendSymbol symbol = (ExtendSymbol) CUP$SqlParser$stack.peek();
     RESULT.startPosition = symbol.start;
     RESULT.endPosition = symbol.end;
+    RESULT.subBlocks = Lists.newArrayList(
+      ObjectSyntaxBlock.valueOf(symbol)
+    );
   :}
   | NUMERIC_OVERFLOW:l
   {:
@@ -7716,6 +7747,9 @@ literal ::=
     ExtendSymbol symbol = (ExtendSymbol) CUP$SqlParser$stack.peek();
     RESULT.startPosition = symbol.start;
     RESULT.endPosition = symbol.end;
+    RESULT.subBlocks = Lists.newArrayList(
+      ObjectSyntaxBlock.valueOf(symbol)
+    );
   :}
   ;
 
@@ -7738,8 +7772,8 @@ function_params ::=
     RESULT.startPosition = allSymbol.start;
     RESULT.endPosition = starSymbol.end;
     RESULT.subBlocks = Lists.<SyntaxBlock>newArrayList(
-        ObjectSyntaxBlock.valueOf(new ObjectSyntaxBlock<String>(allSymbol.start, allSymbol.end, allSymbol.text)),
-        ObjectSyntaxBlock.valueOf(new ObjectSyntaxBlock<String>(starSymbol.start, starSymbol.end, starSymbol.text))
+        ObjectSyntaxBlock.valueOf(allSymbol),
+        ObjectSyntaxBlock.valueOf(starSymbol)
     );
   :}
   | expr_list:exprs
@@ -7760,7 +7794,7 @@ function_params ::=
     RESULT.startPosition = allPSymbol.start;
     RESULT.endPosition = symbol.end;
     RESULT.subBlocks = Lists.<SyntaxBlock>newArrayList(
-        ObjectSyntaxBlock.valueOf(new ObjectSyntaxBlock<String>(allPSymbol.start, allPSymbol.end, allPSymbol.text)),
+        ObjectSyntaxBlock.valueOf(allPSymbol),
         ObjectSyntaxBlock.valueOf(symbol)
     );
   :}
@@ -7772,7 +7806,7 @@ function_params ::=
     RESULT.startPosition = distinctSymbol.start;
     RESULT.endPosition = symbol.end;
     RESULT.subBlocks = Lists.<SyntaxBlock>newArrayList(
-        ObjectSyntaxBlock.valueOf(new ObjectSyntaxBlock<String>(distinctSymbol.start, distinctSymbol.end, distinctSymbol.text)),
+        ObjectSyntaxBlock.valueOf(distinctSymbol),
         ObjectSyntaxBlock.valueOf(symbol)
     );
   :}
@@ -7786,8 +7820,8 @@ function_params ::=
     RESULT.endPosition = nullsSymbol.end;
     RESULT.subBlocks = Lists.<SyntaxBlock>newArrayList(
         ObjectSyntaxBlock.valueOf(symbol),
-        ObjectSyntaxBlock.valueOf(new ObjectSyntaxBlock<String>(ignoreSymbol.start, ignoreSymbol.end, ignoreSymbol.text)),
-        ObjectSyntaxBlock.valueOf(new ObjectSyntaxBlock<String>(nullsSymbol.start, nullsSymbol.end, nullsSymbol.text))
+        ObjectSyntaxBlock.valueOf(ignoreSymbol),
+        ObjectSyntaxBlock.valueOf(nullsSymbol)
     );
   :}
   ;
