@@ -476,7 +476,7 @@ nonterminal PrivilegeSpec privilege_spec;
 nonterminal ObjectSyntaxBlock<TPrivilegeLevel> privilege;
 nonterminal ObjectSyntaxBlock<Boolean> opt_with_grantopt;
 nonterminal ObjectSyntaxBlock<Boolean> opt_grantopt_for;
-nonterminal ObjectSyntaxBlock<Boolean> opt_kw_role;
+nonterminal ObjectSyntaxBlock<String> opt_kw_role;
 
 // To avoid creating common keywords such as 'SERVER' or 'SOURCES' we treat them as
 // identifiers rather than keywords. Throws a parse exception if the identifier does not
@@ -1287,6 +1287,10 @@ opt_ident_list ::=
 
 opt_kw_table ::=
   KW_TABLE
+  {:
+    ExtendSymbol _0_symbol = (ExtendSymbol) CUP$SqlParser$stack.peek();
+    RESULT = (ObjectSyntaxBlock<String>) ObjectSyntaxBlock.valueOf(_0_symbol);
+  :}
   | /* empty */
   ;
 
@@ -1809,6 +1813,10 @@ opt_with_grantopt ::=
 
 opt_kw_role ::=
   KW_ROLE
+  {:
+    ExtendSymbol _0_symbol = (ExtendSymbol) CUP$SqlParser$stack.peek();
+    RESULT = (ObjectSyntaxBlock<String>) ObjectSyntaxBlock.valueOf(_0_symbol);
+  :}
   | /* empty */
   ;
 
@@ -2198,6 +2206,10 @@ table_property_type ::=
 
 opt_kw_column ::=
   KW_COLUMN
+  {:
+    ExtendSymbol _0_symbol = (ExtendSymbol) CUP$SqlParser$stack.peek();
+    RESULT = (ObjectSyntaxBlock<String>) ObjectSyntaxBlock.valueOf(_0_symbol);
+  :}
   | /* empty */
   ;
 
@@ -6522,11 +6534,17 @@ join_operator ::=
 
 opt_inner ::=
   KW_INNER
+  {:
+    RESULT = (ExtendSymbol) CUP$SqlParser$stack.peek();
+  :}
   |
   ;
 
 opt_outer ::=
   KW_OUTER
+  {:
+    RESULT = (ExtendSymbol) CUP$SqlParser$stack.peek();
+  :}
   |
   ;
 
