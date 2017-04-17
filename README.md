@@ -24,8 +24,8 @@ public class Test {
         String sql = "SELECT concat(o.order_id, '2') " +
             "FROM fact_order o " +
             "LEFT JOIN dim_business d " +
-            "WHERE o.shop_id = d.shop_id " +
-            "  AND o.order_day_key=20170415";
+            "ON o.shop_id = d.shop_id " +
+            "WHERE o.order_day_key=20170415";
 
         SqlScanner scanner = new SqlScanner(new StringReader(sql));
         SqlParser parser = new SqlParser(scanner, new ExtendSymbolFactory(sql));
